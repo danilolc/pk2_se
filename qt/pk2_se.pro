@@ -13,8 +13,10 @@ TEMPLATE = app
 
 
 SOURCES += ../src/main.cpp\
+        ../src/sprite.cpp\
         sc_window.cpp
 
-HEADERS  += sc_window.h
+HEADERS  += sc_window.h\
+        ../src/sprite.h\
 
 FORMS    += sc_window.ui

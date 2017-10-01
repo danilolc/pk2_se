@@ -10,10 +10,6 @@
 #include <cstring>
 
 #include "sprite.h"
-#include "PisteDraw.h"
-#include "PisteSound.h"
-
-#include "platform.h"
 
 using namespace std;
 
