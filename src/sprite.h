@@ -1,19 +1,12 @@
 //#########################
-//Pekka Kana 2
+//Pekka Kana 2 - sprite.h
 //by Janne Kivilahti from Piste Gamez (2003)
 //#########################
 
 #ifndef PK2SPRITE
 #define PK2SPRITE
 
-#include <stdint.h>
-typedef uint8_t  BYTE;
-typedef uint16_t WORD;
-#ifdef _WIN32
-    typedef unsigned long DWORD;
-#else
-    typedef uint32_t DWORD;
-#endif
+#include "types.h"
 
 #define PK2SPRITE_VIIMEISIN_VERSIO "1.3"
 
@@ -28,7 +21,7 @@ typedef uint16_t WORD;
 //Damage time?
 #define	VAHINKO_AIKA 50
 
-//File Values
+//Spite file values
 enum { //Animation
     ANIMAATIO_PAIKALLA,
     ANIMAATIO_KAVELY,
@@ -482,8 +475,7 @@ class PK2Sprite_Prototyyppi13{
 	bool		osaa_uida;										// vaikuttaako painovoima vedess�?
 };
 
-// Varsinaiset "oikeat" luokat ----------------------------------------------------------------------
-
+//Classes used in game
 class PK2Sprite_Prototyyppi{
 	public:
 
@@ -600,7 +592,6 @@ class PK2Sprite_Prototyyppi{
 	void SetProto13(PK2Sprite_Prototyyppi13 &proto);
 
 };
-
 class PK2Sprite{
 	public:
 
@@ -658,6 +649,8 @@ class PK2Sprite{
 	int Animaatio(int anim_i, bool nollaus);	// Vaihtaa spriten animaation
 	int Animoi();								// Animoi muttei piirr� sprite�
 	bool Onko_AI(int AI);						// Palauttaa true, jos spritell� on ko. AI
+
+    //AI_Functions
 	int AI_Kana();
 	int AI_Bonus();
 	int AI_Muna();

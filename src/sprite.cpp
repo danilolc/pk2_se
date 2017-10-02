@@ -1,5 +1,5 @@
 //#########################
-//Pekka Kana 2
+//Pekka Kana 2 - sprite.cpp
 //by Janne Kivilahti from Piste Gamez (2003)
 //#########################
 
@@ -10,6 +10,10 @@
 #include <cstring>
 
 #include "sprite.h"
+#include "pistedraw.h"
+#include "pistesound.h"
+
+#include "platform.h"
 
 using namespace std;
 

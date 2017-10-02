@@ -12,11 +12,18 @@ TARGET = pk2_se
 TEMPLATE = app
 
 
-SOURCES += ../src/main.cpp\
+SOURCES += sc_window.cpp\
+        ../src/main.cpp\
         ../src/sprite.cpp\
-        sc_window.cpp
+        ../src/qt_pistesound.cpp\
+        ../src/qt_pistedraw.cpp
+
 
 HEADERS  += sc_window.h\
         ../src/sprite.h\
+        ../src/types.h\
+        ../src/platform.h \
+    ../src/pistedraw.h \
+    ../src/pistesound.h
 
 FORMS    += sc_window.ui
