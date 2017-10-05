@@ -7,7 +7,7 @@
 #define P_TYPES
 
 #include <stdint.h>
-typedef uint8_t  BYTE;
+typedef uint8_t BYTE;
 typedef uint16_t WORD;
 #ifdef _WIN32
 typedef unsigned long DWORD;

@@ -5,6 +5,7 @@
 
 #include <QFileDialog>
 #include <QPixmap>
+#include <unistd.h>
 #include "sc_window.h"
 #include "ui_sc_window.h"
 
@@ -32,9 +33,22 @@ SC_Window::~SC_Window(){
 void SC_Window::open(){
     this->filename = QFileDialog::getOpenFileName(this,"Selecione um sprite.", "", "Sprites (*.spr)");
 
+#ifdef _WIN32
+    char sep = '\\';
+#else
+    char sep = '/';
+#endif
+
     char path[_MAX_PATH] = "";
-    QByteArray ba = filename.toLatin1();
-    sprite_prototype->Lataa(path,ba.data());
+    QByteArray bap = filename.toLatin1(); //Path
+    QByteArray baf = bap; //File
+
+
+    bap.data()[bap.lastIndexOf(sep)+1] = '\0';
+    baf.remove(0,bap.lastIndexOf('\0'));
+    chdir(bap.data());
+
+    sprite_prototype->Lataa(bap.data(),baf.data());
 
     this->update();
 }

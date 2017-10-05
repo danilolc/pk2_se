@@ -26,6 +26,5 @@ int PisteDraw2_DrawImage_End(int index);
 
 QPixmap* PisteDraw2_Start(int width, int height);
 int PisteDraw2_Exit();
-void PisteDraw2_Update(bool draw);
 
 #endif
