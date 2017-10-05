@@ -4,21 +4,29 @@
 //#########################
 
 #include <QFileDialog>
+#include <QPixmap>
 #include "sc_window.h"
 #include "ui_sc_window.h"
 
+#include "../src/pistedraw.h"
 #include "../src/platform.h"
 
 SC_Window::SC_Window(QWidget *parent) : QMainWindow(parent), ui(new Ui::SC_Window){
     ui->setupUi(this);
     sprite_prototype = new PK2Sprite_Prototyyppi;
     sprite_prototype->Uusi();
+
+    QPixmap* pixmap = PisteDraw2_Start(150,150);
+    ui->frame->setPixmap(*pixmap);
+
+    char op[] = "SSSS";
+    if(ui->frame->pixmap() == 0) op[2] = 'A';
+    ui->lab_sound->setText(op);
 }
 
 SC_Window::~SC_Window(){
     delete ui;
 }
-
 
 //Slots
 void SC_Window::open(){

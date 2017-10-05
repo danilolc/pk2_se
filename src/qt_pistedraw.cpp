@@ -8,6 +8,8 @@
 
 #include "pistedraw.h"
 
+QPixmap* pixmap;
+
 int PisteDraw2_Image_Load(const char* filename, bool getPalette){
 
 }
@@ -40,8 +42,12 @@ int PisteDraw2_DrawImage_End(int index){
 
 }
 
-int PisteDraw2_Start(int width, int height, const char* name){
+QPixmap* PisteDraw2_Start(int width, int height){
+    pixmap = new QPixmap(width,height);
+    pixmap->fill(Qt::white);
 
+
+    return pixmap;
 }
 
 int PisteDraw2_Exit(){
