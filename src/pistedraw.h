@@ -9,7 +9,7 @@
 #define P_DRAW
 
 #include "types.h"
-#include <QPixmap>
+#include <QLabel>
 
 struct PD_RECT{
 	int x, y, w, h;
@@ -24,7 +24,7 @@ void PisteDraw2_Image_GetSize(int index, int& w, int& h);
 int PisteDraw2_DrawImage_Start(int index, BYTE *&pixels, DWORD &pitch);
 int PisteDraw2_DrawImage_End(int index);
 
-QPixmap* PisteDraw2_Start(int width, int height);
+int PisteDraw2_Start(QLabel* frame);
 int PisteDraw2_Exit();
 
 #endif

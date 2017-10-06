@@ -9,6 +9,7 @@
 #include <QRect>
 #include <QImage>
 #include <QColor>
+
 #include <cstdio>
 
 #include "pistedraw.h"
@@ -17,7 +18,9 @@
 
 #define MAX_FRAMES 50
 
-QPixmap* screen = NULL;
+QLabel* screenframe = NULL;
+QImage* screenimage = NULL;
+
 int screen_w, screen_h;
 
 bool loaded = false;
@@ -42,7 +45,7 @@ int update_image(){
     int h = image8->height();
     for(int x = 0; x < w; x++)
         for(int y = 0; y < h; y++){
-            image->setPixel(x,y,image8->color(200));
+            image->setPixel(x,y,image8->color(1));
         }
 }
 
@@ -58,7 +61,7 @@ int PisteDraw2_Image_Load(const char* filename, bool getPalette){
 
     update_image();
 
-    *screen = QPixmap::fromImage(*image);
+    screenframe->setPixmap(QPixmap::fromImage(*screenimage));
 
     image_loaded = true;
     return 0;
@@ -117,20 +120,22 @@ int PisteDraw2_DrawImage_End(int index){
     //TODO
 }
 
-QPixmap* PisteDraw2_Start(int width, int height){
+int PisteDraw2_Start(QLabel* frame){
     if (loaded) return NULL;
 
-    screen_w = width;
-    screen_h = height;
-    screen = new QPixmap(width,height);
-    //screen->fill(Qt::white);
+    screen_w = frame->width();;
+    screen_h = frame->height();;
+
+    screenframe = frame;
+    screenimage = new QImage(screen_w,screen_h,QImage::Format_RGBA8888);
+    screenimage->fill(Qt::blue);
+    screenframe->setPixmap(QPixmap::fromImage(*screenimage));
 
     for(int i=0;i<MAX_FRAMES;i++)
         frames[i] = NULL;
 
-
     loaded = true;
-    return screen;
+    return 0;
 }
 
 int PisteDraw2_Exit(){
