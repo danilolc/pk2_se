@@ -30,6 +30,8 @@ SC_Window::SC_Window(QWidget *parent) : QMainWindow(parent), ui(new Ui::SC_Windo
     sprite_prototype = new PK2Sprite_Prototyyppi;
     sprite_prototype->Uusi();
 
+    sprite = new PK2Sprite(sprite_prototype,0,true,0,0);
+
     PisteDraw2_Start(ui->frame);
 
     char op[] = "SSSS";
@@ -65,10 +67,13 @@ void SC_Window::open(){
 
     sprite_prototype->Lataa(bap.data(),baf.data());
 
+
     ui->box_frame->setEnabled(true);
     ui->box_frame->setValue(0);
     ui->box_frame->setMaximum(sprite_prototype->frameja - 1);
     this->boxframe_changed(0);
+
+    ui->box_animate->setEnabled(true);
 
     int color = sprite_prototype->vari;
     ui->box_color->setEnabled(true);
@@ -99,6 +104,11 @@ void SC_Window::boxcolor_changed(int value){
     else PisteDraw2_RecoverImage();
 
     sprite_prototype->Piirra(0,0,currentframe);
+}
+
+void SC_Window::boxanimate_changed(int value){
+    bool check = value;
+    ui->box_frame->setEnabled(!check);
 }
 
 //Internal Functions

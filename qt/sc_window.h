@@ -27,13 +27,15 @@ public slots:
 
     void boxframe_changed(int value);
     void boxcolor_changed(int value);
+    void boxanimate_changed(int value);
 
 private:
     Ui::SC_Window *ui;
     QString filename;
     PK2Sprite_Prototyyppi* sprite_prototype;
+    PK2Sprite* sprite;
 
-    int currentframe;
+    int currentframe = 0;
 
     void update();
 };

@@ -50,7 +50,7 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>50</y>
+        <y>120</y>
         <width>47</width>
         <height>23</height>
        </rect>
@@ -70,6 +70,22 @@
         <width>79</width>
         <height>22</height>
        </rect>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="box_animate">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>150</y>
+        <width>85</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Animate</string>
       </property>
      </widget>
     </widget>
@@ -220,6 +236,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>box_animate</sender>
+   <signal>stateChanged(int)</signal>
+   <receiver>SC_Window</receiver>
+   <slot>boxanimate_changed(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>64</x>
+     <y>204</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>346</x>
+     <y>172</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>open()</slot>
@@ -227,5 +259,6 @@
   <slot>reset()</slot>
   <slot>boxframe_changed(int)</slot>
   <slot>boxcolor_changed(int)</slot>
+  <slot>boxanimate_changed(int)</slot>
  </slots>
 </ui>

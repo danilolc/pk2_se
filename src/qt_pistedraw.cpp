@@ -119,8 +119,15 @@ int PisteDraw2_Image_FlipHori(int index){
 int PisteDraw2_Image_Clip(int index, int x, int y){
     if(!image_loaded) return -1;
 
-    QImage spr = image->copy(*frames[index]);
+    QRect r = *frames[index];
+    QImage spr = image->copy(r);
     screenframe->setPixmap(QPixmap::fromImage(spr));
+
+    QRect fr = screenframe->rect();
+    fr.setWidth(r.width());
+    fr.setHeight(r.height());
+    screenframe->setFrameRect(fr);
+
     return 0;
 }
 
