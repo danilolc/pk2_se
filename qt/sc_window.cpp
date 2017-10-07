@@ -11,6 +11,19 @@
 
 #include "../src/pistedraw.h"
 #include "../src/platform.h"
+#include "../src/types.h"
+
+const BYTE colorlist_values[] = {255, 0, 32, 64, 96, 128, 160, 192};
+const char colorlist[][16] = {
+    "Normal",
+    "Gray",
+    "Blue",
+    "Red",
+    "Green",
+    "Orenge",
+    "Violet",
+    "Turquoise"
+};
 
 SC_Window::SC_Window(QWidget *parent) : QMainWindow(parent), ui(new Ui::SC_Window){
     ui->setupUi(this);
@@ -22,6 +35,9 @@ SC_Window::SC_Window(QWidget *parent) : QMainWindow(parent), ui(new Ui::SC_Windo
     char op[] = "SSSS";
     if(ui->frame->pixmap() == 0) op[2] = 'A';
     ui->lab_sound->setText(op);
+
+    for(int i = 0; i < 8; i++)
+        ui->box_color->addItem(colorlist[i]);
 }
 
 SC_Window::~SC_Window(){
@@ -49,6 +65,19 @@ void SC_Window::open(){
 
     sprite_prototype->Lataa(bap.data(),baf.data());
 
+    ui->box_frame->setEnabled(true);
+    ui->box_frame->setValue(0);
+    ui->box_frame->setMaximum(sprite_prototype->frameja - 1);
+    this->boxframe_changed(0);
+
+    int color = sprite_prototype->vari;
+    ui->box_color->setEnabled(true);
+    //ui->box_color->setCurrentIndex(-1);
+    for(int i = 0; i < 8; i++)
+        if(colorlist_values[i] == color)
+            ui->box_color->setCurrentIndex(i);
+
+
     this->update();
 }
 void SC_Window::save(){
@@ -57,7 +86,20 @@ void SC_Window::save(){
 void SC_Window::reset(){
 
 }
+void SC_Window::boxframe_changed(int value){
+    currentframe = value;
+    sprite_prototype->Piirra(0,0,value);
+}
+void SC_Window::boxcolor_changed(int value){
+    if(value != 0){
+        sprite_prototype->vari = colorlist_values[value];
+        sprite_prototype->UpdateColors();
+        PisteDraw2_UpdateImage();
+    }
+    else PisteDraw2_RecoverImage();
 
+    sprite_prototype->Piirra(0,0,currentframe);
+}
 
 //Internal Functions
 void SC_Window::update(){

@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -43,6 +43,35 @@
        <string>Sound</string>
       </property>
      </widget>
+     <widget class="QSpinBox" name="box_frame">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>50</y>
+        <width>47</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="maximum">
+       <number>0</number>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="box_color">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>80</y>
+        <width>79</width>
+        <height>22</height>
+       </rect>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="tab_2">
      <attribute name="title">
@@ -51,6 +80,9 @@
     </widget>
    </widget>
    <widget class="QLabel" name="frame">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>520</x>
@@ -59,8 +91,35 @@
       <height>150</height>
      </rect>
     </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="mouseTracking">
+     <bool>false</bool>
+    </property>
+    <property name="acceptDrops">
+     <bool>false</bool>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
     <property name="text">
      <string>Frame</string>
+    </property>
+    <property name="wordWrap">
+     <bool>false</bool>
+    </property>
+    <property name="margin">
+     <number>0</number>
+    </property>
+    <property name="indent">
+     <number>-1</number>
+    </property>
+    <property name="openExternalLinks">
+     <bool>false</bool>
     </property>
    </widget>
   </widget>
@@ -129,10 +188,44 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>box_frame</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>SC_Window</receiver>
+   <slot>boxframe_changed(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>45</x>
+     <y>116</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>346</x>
+     <y>172</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>box_color</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>SC_Window</receiver>
+   <slot>boxcolor_changed(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>61</x>
+     <y>145</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>346</x>
+     <y>172</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>open()</slot>
   <slot>save()</slot>
   <slot>reset()</slot>
+  <slot>boxframe_changed(int)</slot>
+  <slot>boxcolor_changed(int)</slot>
  </slots>
 </ui>

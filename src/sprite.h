@@ -568,7 +568,10 @@ class PK2Sprite_Prototyyppi{
     PK2Sprite_Prototyyppi();
     ~PK2Sprite_Prototyyppi();
 
+    int buffer;
+
     // Methods
+    void UpdateColors();
     void Uusi();
     void Kopioi(const PK2Sprite_Prototyyppi &proto);
     int  Animaatio_Uusi(int anim_i, BYTE *sekvenssi, bool looppi);

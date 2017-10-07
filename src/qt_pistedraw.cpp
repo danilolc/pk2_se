@@ -9,25 +9,22 @@
 #include <QRect>
 #include <QImage>
 #include <QColor>
+#include <QPainter>
 
 #include <cstdio>
 
 #include "pistedraw.h"
 #include "types.h"
 
-
 #define MAX_FRAMES 50
 
 QLabel* screenframe = NULL;
-QImage* screenimage = NULL;
-
-int screen_w, screen_h;
 
 bool loaded = false;
 bool image_loaded = false;
 
-
 QImage* image8 = NULL;
+QImage* image8_bkp = NULL;
 QImage* image = NULL;
 
 QRect* frames[MAX_FRAMES];
@@ -40,13 +37,27 @@ int findfreeframe(){
     return -1;
 }
 
-int update_image(){
+void PisteDraw2_UpdateImage(){
+    if(!image_loaded) return;
+
     int w = image8->width();
     int h = image8->height();
+    BYTE index;
+    QRgb color;
     for(int x = 0; x < w; x++)
         for(int y = 0; y < h; y++){
-            image->setPixel(x,y,image8->color(1));
+            index = image8->pixelIndex(x,y);
+            color = index == 255 ? Qt::transparent : image8->color(index);
+            image->setPixel(x,y,color);
         }
+}
+
+int PisteDraw2_GetPalette(const char* filename){
+    QImage buffer(filename);
+    for(int i = 0; i < 256; i++)
+        image8->setColor(i,buffer.color(i));
+    PisteDraw2_UpdateImage();
+    return 0;
 }
 
 int PisteDraw2_Image_Load(const char* filename, bool getPalette){
@@ -56,15 +67,24 @@ int PisteDraw2_Image_Load(const char* filename, bool getPalette){
     if(image8 != NULL) delete image8;
     image8 = new QImage(filename);
 
+    image8_bkp = new QImage(*image8);
+
     if(image != NULL) delete image;
     image = new QImage(image8->width(), image8->height(),QImage::Format_RGBA8888);
 
-    update_image();
-
-    screenframe->setPixmap(QPixmap::fromImage(*screenimage));
-
     image_loaded = true;
+    PisteDraw2_UpdateImage();
+    //screenframe->setPixmap(QPixmap::fromImage(*image));
+
     return 0;
+}
+
+void PisteDraw2_RecoverImage(){
+    if(!image_loaded) return;
+
+    delete image8;
+    image8 = new QImage(*image8_bkp);
+    PisteDraw2_UpdateImage();
 }
 
 int PisteDraw2_Image_Delete(int& index){
@@ -91,13 +111,17 @@ int PisteDraw2_Image_Cut(int ImgIndex, int x, int y, int w, int h){
 }
 
 int PisteDraw2_Image_FlipHori(int index){
-    int w = frames[index]->width();
-    frames[index]->setWidth(-w);
+    //int w = frames[index]->width();
+    //frames[index]->setWidth(-w);
     return 0;
 }
 
 int PisteDraw2_Image_Clip(int index, int x, int y){
+    if(!image_loaded) return -1;
 
+    QImage spr = image->copy(*frames[index]);
+    screenframe->setPixmap(QPixmap::fromImage(spr));
+    return 0;
 }
 
 void PisteDraw2_Image_GetSize(int index, int& w, int& h){
@@ -112,24 +136,18 @@ void PisteDraw2_Image_GetSize(int index, int& w, int& h){
 }
 
 int PisteDraw2_DrawImage_Start(int index, BYTE *&pixels, DWORD &pitch){
-    pixels = (BYTE*) image8->data_ptr();
+    pixels = (BYTE*) image8->bits();
     pitch = image8->bytesPerLine();
 }
 
 int PisteDraw2_DrawImage_End(int index){
-    //TODO
+    PisteDraw2_UpdateImage();
 }
 
 int PisteDraw2_Start(QLabel* frame){
-    if (loaded) return NULL;
-
-    screen_w = frame->width();;
-    screen_h = frame->height();;
+    if (loaded) return -1;
 
     screenframe = frame;
-    screenimage = new QImage(screen_w,screen_h,QImage::Format_RGBA8888);
-    screenimage->fill(Qt::blue);
-    screenframe->setPixmap(QPixmap::fromImage(*screenimage));
 
     for(int i=0;i<MAX_FRAMES;i++)
         frames[i] = NULL;
@@ -139,6 +157,6 @@ int PisteDraw2_Start(QLabel* frame){
 }
 
 int PisteDraw2_Exit(){
+    //TODO - delete all
     loaded = false;
-
 }

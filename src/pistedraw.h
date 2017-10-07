@@ -15,6 +15,10 @@ struct PD_RECT{
 	int x, y, w, h;
 };
 
+int PisteDraw2_GetPalette(const char* filename);
+void PisteDraw2_UpdateImage();
+void PisteDraw2_RecoverImage();
+
 int PisteDraw2_Image_Load(const char* filename, bool getPalette);
 int PisteDraw2_Image_Delete(int& index);
 int PisteDraw2_Image_Cut(int ImgIndex, int x, int y, int w, int h);

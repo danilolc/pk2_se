@@ -25,10 +25,15 @@ public slots:
     void save();
     void reset();
 
+    void boxframe_changed(int value);
+    void boxcolor_changed(int value);
+
 private:
     Ui::SC_Window *ui;
     QString filename;
     PK2Sprite_Prototyyppi* sprite_prototype;
+
+    int currentframe;
 
     void update();
 };

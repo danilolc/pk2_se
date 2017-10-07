@@ -813,6 +813,28 @@ void PK2Sprite_Prototyyppi::SetProto13(PK2Sprite_Prototyyppi13 &proto){
 	}
 }
 
+void PK2Sprite_Prototyyppi::UpdateColors(){
+    BYTE *buffer = NULL;
+    DWORD leveys;
+    int x,y,w,h;
+    BYTE vari;
+    if (this->vari != VARI_NORMAALI){ //Change sprite colors
+        PisteDraw2_Image_GetSize(this->buffer,w,h);
+
+        PisteDraw2_DrawImage_Start(this->buffer,*&buffer,leveys);
+
+        for (x=0;x<w;x++)
+            for (y=0;y<h;y++)
+                if ((vari = buffer[x+y*leveys]) != 255){
+                    vari %= 32;
+                    vari += this->vari;
+                    buffer[x+y*leveys] = vari;
+                }
+
+        PisteDraw2_DrawImage_End(this->buffer);
+    }
+}
+
 int PK2Sprite_Prototyyppi::Lataa(char *polku, char *tiedoston_nimi){
 	this->Uusi();
 
@@ -885,27 +907,10 @@ int PK2Sprite_Prototyyppi::Lataa(char *polku, char *tiedoston_nimi){
 	if (bufferi == -1)
 		return 1;
 
+    this->buffer = bufferi;
+
 	//Set diferent colors
-	BYTE *buffer = NULL;
-	DWORD leveys;
-	BYTE vari;
-	int x,y,w,h;
-
-	if (this->vari != VARI_NORMAALI){ //Change sprite colors
-		PisteDraw2_Image_GetSize(bufferi,w,h);
-
-		PisteDraw2_DrawImage_Start(bufferi,*&buffer,leveys);
-
-		for (x=0;x<w;x++)
-			for (y=0;y<h;y++)
-				if ((vari = buffer[x+y*leveys]) != 255){
-					vari %= 32;
-					vari += this->vari;
-					buffer[x+y*leveys] = vari;
-				}
-
-		PisteDraw2_DrawImage_End(bufferi);
-	}
+    this->UpdateColors();
 
 	int frame_i = 0,
 		frame_x = kuva_x,
