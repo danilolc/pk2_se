@@ -34,7 +34,7 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>20</y>
+        <y>50</y>
         <width>151</width>
         <height>16</height>
        </rect>
@@ -86,6 +86,19 @@
       </property>
       <property name="text">
        <string>Animate</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="lab_name">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>241</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Name</string>
       </property>
      </widget>
     </widget>

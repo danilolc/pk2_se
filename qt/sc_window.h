@@ -7,6 +7,7 @@
 #define SC_WINDOW_H
 
 #include <QMainWindow>
+#include <QThread>
 #include "../src/sprite.h"
 
 namespace Ui {
@@ -20,6 +21,8 @@ public:
     explicit SC_Window(QWidget *parent = 0);
     ~SC_Window();
 
+    bool animating = false;
+
 public slots:
     void open();
     void save();
@@ -29,6 +32,8 @@ public slots:
     void boxcolor_changed(int value);
     void boxanimate_changed(int value);
 
+    void animate();
+
 private:
     Ui::SC_Window *ui;
     QString filename;
@@ -37,7 +42,16 @@ private:
 
     int currentframe = 0;
 
+    int interval_position = 0; //For animating
+
     void update();
+};
+
+class AnimThread : public QThread {
+    Q_OBJECT
+    void run();
+public:
+    SC_Window* window;
 };
 
 #endif // SC_WINDOW_H

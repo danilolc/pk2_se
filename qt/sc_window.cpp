@@ -5,13 +5,25 @@
 
 #include <QFileDialog>
 #include <QPixmap>
+#include <QTimer>
 #include <unistd.h>
+#include <cstdio>
 #include "sc_window.h"
 #include "ui_sc_window.h"
 
 #include "../src/pistedraw.h"
 #include "../src/platform.h"
 #include "../src/types.h"
+
+AnimThread* anim_thread;
+
+void AnimThread::run(){
+    while(1){
+        if(this->window->animating)
+            this->window->animate();
+        QThread::usleep(16666);
+    }
+}
 
 const BYTE colorlist_values[] = {255, 0, 32, 64, 96, 128, 160, 192};
 const char colorlist[][16] = {
@@ -34,16 +46,24 @@ SC_Window::SC_Window(QWidget *parent) : QMainWindow(parent), ui(new Ui::SC_Windo
 
     PisteDraw2_Start(ui->frame);
 
-    char op[] = "SSSS";
-    if(ui->frame->pixmap() == 0) op[2] = 'A';
-    ui->lab_sound->setText(op);
+    ui->lab_sound->setText("");
+    ui->lab_name->setText("");
+
+    anim_thread = new AnimThread();
+    anim_thread->window = this;
+    anim_thread->start();
 
     for(int i = 0; i < 8; i++)
         ui->box_color->addItem(colorlist[i]);
 }
 
 SC_Window::~SC_Window(){
+    anim_thread->quit();
+    delete anim_thread;
+
     delete ui;
+    delete sprite;
+    delete sprite_prototype;
 }
 
 //Slots
@@ -68,19 +88,6 @@ void SC_Window::open(){
     sprite_prototype->Lataa(bap.data(),baf.data());
 
 
-    ui->box_frame->setEnabled(true);
-    ui->box_frame->setValue(0);
-    ui->box_frame->setMaximum(sprite_prototype->frameja - 1);
-    this->boxframe_changed(0);
-
-    ui->box_animate->setEnabled(true);
-
-    int color = sprite_prototype->vari;
-    ui->box_color->setEnabled(true);
-    //ui->box_color->setCurrentIndex(-1);
-    for(int i = 0; i < 8; i++)
-        if(colorlist_values[i] == color)
-            ui->box_color->setCurrentIndex(i);
 
 
     this->update();
@@ -109,9 +116,29 @@ void SC_Window::boxcolor_changed(int value){
 void SC_Window::boxanimate_changed(int value){
     bool check = value;
     ui->box_frame->setEnabled(!check);
+    animating = check;
+}
+void SC_Window::animate(){
+    interval_position++;
+    printf("%i\n",interval_position);
+    fflush(stdin);
 }
 
 //Internal Functions
 void SC_Window::update(){
     ui->lab_sound->setText(sprite_prototype->aanitiedostot[0]);
+    ui->lab_name->setText(sprite_prototype->nimi);
+
+    ui->box_frame->setEnabled(true);
+    ui->box_frame->setValue(0);
+    ui->box_frame->setMaximum(sprite_prototype->frameja - 1);
+    this->boxframe_changed(0);
+
+    ui->box_animate->setEnabled(true);
+
+    int color = sprite_prototype->vari;
+    ui->box_color->setEnabled(true);
+    for(int i = 0; i < 8; i++)
+        if(colorlist_values[i] == color)
+            ui->box_color->setCurrentIndex(i);
 }
