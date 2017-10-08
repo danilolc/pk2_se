@@ -6,25 +6,31 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>694</width>
-    <height>345</height>
+    <width>602</width>
+    <height>490</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <property name="windowTitle">
-   <string>SC_Window</string>
+   <string>Pekka Kana 2 Sprite Editor</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QTabWidget" name="tabWidget">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>10</y>
-      <width>491</width>
-      <height>291</height>
+      <y>40</y>
+      <width>401</width>
+      <height>401</height>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -43,22 +49,6 @@
        <string>Sound</string>
       </property>
      </widget>
-     <widget class="QSpinBox" name="box_frame">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>120</y>
-        <width>47</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="maximum">
-       <number>0</number>
-      </property>
-     </widget>
      <widget class="QComboBox" name="box_color">
       <property name="enabled">
        <bool>false</bool>
@@ -72,27 +62,11 @@
        </rect>
       </property>
      </widget>
-     <widget class="QCheckBox" name="box_animate">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>150</y>
-        <width>85</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Animate</string>
-      </property>
-     </widget>
      <widget class="QLabel" name="lab_name">
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>10</y>
+        <y>0</y>
         <width>241</width>
         <height>16</height>
        </rect>
@@ -102,10 +76,594 @@
       </property>
      </widget>
     </widget>
-    <widget class="QWidget" name="tab_2">
+    <widget class="QWidget" name="tab_image">
      <attribute name="title">
-      <string>Tab 2</string>
+      <string>Image</string>
      </attribute>
+     <widget class="QLabel" name="txt_framex">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>100</y>
+        <width>101</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>First frame X:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="txt_framey">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>220</x>
+        <y>100</y>
+        <width>101</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>First frame Y:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="txt_framew">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>170</y>
+        <width>101</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Frame with:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="txt_frameh">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>220</x>
+        <y>170</y>
+        <width>101</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Frame height:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="txt_frames_2">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>240</y>
+        <width>151</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Space between frames:</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="box_loadbmp">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>30</y>
+        <width>80</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Load BMP</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="lab_bmpname">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>30</y>
+        <width>81</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>-bmp name-</string>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="box_framex">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>60</x>
+        <y>120</y>
+        <width>71</width>
+        <height>23</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="box_framey">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>240</x>
+        <y>120</y>
+        <width>71</width>
+        <height>23</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="box_framew">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>60</x>
+        <y>190</y>
+        <width>71</width>
+        <height>23</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="box_frameh">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>240</x>
+        <y>190</y>
+        <width>71</width>
+        <height>23</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="box_frames">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>60</x>
+        <y>260</y>
+        <width>71</width>
+        <height>23</height>
+       </rect>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_animation">
+     <attribute name="title">
+      <string>Animation</string>
+     </attribute>
+     <widget class="QSpinBox" name="box_frame">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>320</x>
+        <y>30</y>
+        <width>47</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="maximum">
+       <number>0</number>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="box_animate">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>170</y>
+        <width>85</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Animate</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="txt_frame">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>300</x>
+        <y>10</y>
+        <width>59</width>
+        <height>14</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Frame:</string>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="box_nofanim">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>110</y>
+        <width>47</width>
+        <height>23</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="txt_nofanim">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>90</y>
+        <width>141</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Number of animations:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="txt_nofframes_2">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>121</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Number of frames:</string>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="box_nofframes">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>30</y>
+        <width>47</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="maximum">
+       <number>0</number>
+      </property>
+     </widget>
+     <widget class="QLabel" name="txt_interval">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>300</x>
+        <y>90</y>
+        <width>101</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Frame Interval:</string>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="box_interval">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>320</x>
+        <y>110</y>
+        <width>47</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="maximum">
+       <number>0</number>
+      </property>
+     </widget>
+     <widget class="QFrame" name="edit_frame">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>210</y>
+        <width>371</width>
+        <height>151</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QLabel" name="txt_curranim">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>10</y>
+         <width>121</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Current animation:</string>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="box_frame5">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>240</x>
+         <y>90</y>
+         <width>41</width>
+         <height>23</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLabel" name="txt_nofframes">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>150</x>
+         <y>10</y>
+         <width>131</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Number of frames:</string>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="box_frame1">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>90</y>
+         <width>41</width>
+         <height>23</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="box_frame4">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>190</x>
+         <y>90</y>
+         <width>41</width>
+         <height>23</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="box_frame8">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>140</x>
+         <y>120</y>
+         <width>41</width>
+         <height>23</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="box_frame9">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>190</x>
+         <y>120</y>
+         <width>41</width>
+         <height>23</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="box_curnofframes">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>220</x>
+         <y>30</y>
+         <width>47</width>
+         <height>23</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="box_frame6">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>120</y>
+         <width>41</width>
+         <height>23</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="box_frame3">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>140</x>
+         <y>90</y>
+         <width>41</width>
+         <height>23</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="box_frameA">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>240</x>
+         <y>120</y>
+         <width>41</width>
+         <height>23</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLabel" name="txt_frames">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>70</y>
+         <width>59</width>
+         <height>14</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Frames:</string>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="box_frame7">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>90</x>
+         <y>120</y>
+         <width>41</width>
+         <height>23</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="box_frame2">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>90</x>
+         <y>90</y>
+         <width>41</width>
+         <height>23</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="box_curranim">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>70</x>
+         <y>30</y>
+         <width>47</width>
+         <height>23</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="box_loop">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>310</x>
+         <y>30</y>
+         <width>51</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Loop</string>
+       </property>
+      </widget>
+      <zorder>box_loop</zorder>
+      <zorder>box_curnofframes</zorder>
+      <zorder>txt_nofframes</zorder>
+      <zorder>box_curranim</zorder>
+      <zorder>txt_curranim</zorder>
+      <zorder>txt_frames</zorder>
+      <zorder>txt_curranim</zorder>
+      <zorder>box_frame5</zorder>
+      <zorder>txt_nofframes</zorder>
+      <zorder>box_frame1</zorder>
+      <zorder>box_frame4</zorder>
+      <zorder>box_frame8</zorder>
+      <zorder>box_frame9</zorder>
+      <zorder>box_curnofframes</zorder>
+      <zorder>box_frame6</zorder>
+      <zorder>box_frame3</zorder>
+      <zorder>box_frameA</zorder>
+      <zorder>txt_frames</zorder>
+      <zorder>box_frame7</zorder>
+      <zorder>box_frame2</zorder>
+      <zorder>box_curranim</zorder>
+      <zorder>box_loop</zorder>
+     </widget>
     </widget>
    </widget>
    <widget class="QLabel" name="frame">
@@ -114,7 +672,7 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>520</x>
+      <x>440</x>
       <y>40</y>
       <width>150</width>
       <height>150</height>
@@ -151,13 +709,29 @@
      <bool>false</bool>
     </property>
    </widget>
+   <widget class="QLineEdit" name="lineEdit">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>161</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Name</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>694</width>
+     <width>602</width>
      <height>19</height>
     </rect>
    </property>

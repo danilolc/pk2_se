@@ -18,7 +18,8 @@
 AnimThread* anim_thread;
 
 void AnimThread::run(){
-    while(1){
+    active = true;
+    while(active){
         if(this->window->animating)
             this->window->animate();
         QThread::usleep(16666);
@@ -54,14 +55,14 @@ SC_Window::SC_Window(QWidget *parent) : QMainWindow(parent), ui(new Ui::SC_Windo
 
     anim_thread = new AnimThread();
     anim_thread->window = this;
-    //anim_thread->start();
 
     for(int i = 0; i < 8; i++)
         ui->box_color->addItem(colorlist[i]);
 }
 
 SC_Window::~SC_Window(){
-    anim_thread->quit();
+    anim_thread->active = false;
+    while(anim_thread->isRunning());
     delete anim_thread;
 
     delete ui;
@@ -74,8 +75,11 @@ void SC_Window::open(){
     QString file = QFileDialog::getOpenFileName(this,"Selecione um sprite.", "", "Sprites (*.spr)");
 
     if(!file.isEmpty()){
-        if(anim_thread->isRunning())
-            anim_thread->quit();
+
+        if(anim_thread->isRunning()){
+            anim_thread->active = false;
+            while(anim_thread->isRunning());
+        }
 
         this->filename = file;
         QByteArray bap = filename.toLatin1(); //Path
@@ -116,6 +120,7 @@ void SC_Window::boxcolor_changed(int value){
 void SC_Window::boxanimate_changed(int value){
     bool check = value;
     ui->box_frame->setEnabled(!check);
+    ui->txt_frame->setEnabled(!check);
     animating = check;
 }
 
@@ -136,6 +141,7 @@ void SC_Window::update(){
 
     ui->box_frame->setMaximum(sprite_prototype->frameja - 1);
     if(!animating){
+        ui->txt_frame->setEnabled(true);
         ui->box_frame->setEnabled(true);
         ui->box_frame->setValue(0);
         this->boxframe_changed(0);

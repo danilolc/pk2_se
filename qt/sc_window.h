@@ -50,6 +50,7 @@ class AnimThread : public QThread {
     void run();
 public:
     SC_Window* window;
+    bool active;
 };
 
 #endif // SC_WINDOW_H

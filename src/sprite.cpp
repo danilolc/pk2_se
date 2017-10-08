@@ -1081,7 +1081,7 @@ int PK2Sprite::Animaatio(int anim_i, bool nollaus){
 }
 int PK2Sprite::Animoi(){
 	int frame = 0;
-
+/*
 	switch (tyyppi->AI[0]){
 	case AI_KANA:		Animaatio_Kana();break;
 	case AI_PIKKUKANA:	Animaatio_Kana();break;
@@ -1093,7 +1093,7 @@ int PK2Sprite::Animoi(){
 	case AI_TELEPORTTI:	Animaatio_Perus();break;
 	default:			break;
 	}
-
+*/
 	PK2SPRITE_ANIMAATIO &animaatio = tyyppi->animaatiot[animaatio_index];
 
 	if (sekvenssi_index >= animaatio.frameja)
@@ -1114,7 +1114,7 @@ int PK2Sprite::Animoi(){
 		// Jos ei ja animaatio on asetettu luuppaamaan, aloitetaan animaatio alusta.
 		else
 		{
-			if (animaatio.looppi)
+            if (animaatio.looppi)
 				sekvenssi_index = 0;
 		}
 	}
