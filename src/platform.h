@@ -2,6 +2,14 @@
 #ifndef PLATFORM_H
 #define PLATFORM_H
 
+#ifdef _WIN32
+    #define DIR_SEP '\\'
+#else
+    #define DIR_SEP '/'
+#endif
+
+
+
 // Win32 redefinitions and stuff to make MSVC happy
 #if defined (_WIN32) && defined (_MSC_VER)
 

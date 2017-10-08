@@ -42,8 +42,6 @@ private:
 
     int currentframe = 0;
 
-    int interval_position = 0; //For animating
-
     void update();
 };
 

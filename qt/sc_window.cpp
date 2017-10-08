@@ -39,6 +39,7 @@ const char colorlist[][16] = {
 
 SC_Window::SC_Window(QWidget *parent) : QMainWindow(parent), ui(new Ui::SC_Window){
     ui->setupUi(this);
+
     sprite_prototype = new PK2Sprite_Prototyyppi;
     sprite_prototype->Uusi();
 
@@ -49,9 +50,11 @@ SC_Window::SC_Window(QWidget *parent) : QMainWindow(parent), ui(new Ui::SC_Windo
     ui->lab_sound->setText("");
     ui->lab_name->setText("");
 
+    ui->frame->setText("");
+
     anim_thread = new AnimThread();
     anim_thread->window = this;
-    anim_thread->start();
+    //anim_thread->start();
 
     for(int i = 0; i < 8; i++)
         ui->box_color->addItem(colorlist[i]);
@@ -68,29 +71,26 @@ SC_Window::~SC_Window(){
 
 //Slots
 void SC_Window::open(){
-    this->filename = QFileDialog::getOpenFileName(this,"Selecione um sprite.", "", "Sprites (*.spr)");
+    QString file = QFileDialog::getOpenFileName(this,"Selecione um sprite.", "", "Sprites (*.spr)");
 
-#ifdef _WIN32
-    char sep = '\\';
-#else
-    char sep = '/';
-#endif
+    if(!file.isEmpty()){
+        if(anim_thread->isRunning())
+            anim_thread->quit();
 
-    char path[_MAX_PATH] = "";
-    QByteArray bap = filename.toLatin1(); //Path
-    QByteArray baf = bap; //File
+        this->filename = file;
+        QByteArray bap = filename.toLatin1(); //Path
+        QByteArray baf = bap; //File
 
+        bap.data()[bap.lastIndexOf(DIR_SEP)+1] = '\0';
+        baf.remove(0,bap.lastIndexOf('\0'));
+        chdir(bap.data());
 
-    bap.data()[bap.lastIndexOf(sep)+1] = '\0';
-    baf.remove(0,bap.lastIndexOf('\0'));
-    chdir(bap.data());
+        sprite_prototype->Lataa(bap.data(),baf.data());
 
-    sprite_prototype->Lataa(bap.data(),baf.data());
+        anim_thread->start();
 
-
-
-
-    this->update();
+        this->update();
+    }
 }
 void SC_Window::save(){
 
@@ -118,10 +118,15 @@ void SC_Window::boxanimate_changed(int value){
     ui->box_frame->setEnabled(!check);
     animating = check;
 }
+
+//Thread function
 void SC_Window::animate(){
-    interval_position++;
-    printf("%i\n",interval_position);
-    fflush(stdin);
+    int lastframe = currentframe;
+    currentframe = sprite->Animoi();
+    if(lastframe != currentframe){
+        sprite_prototype->Piirra(0,0,currentframe);
+        ui->box_frame->setValue(currentframe);
+    }
 }
 
 //Internal Functions
@@ -129,10 +134,12 @@ void SC_Window::update(){
     ui->lab_sound->setText(sprite_prototype->aanitiedostot[0]);
     ui->lab_name->setText(sprite_prototype->nimi);
 
-    ui->box_frame->setEnabled(true);
-    ui->box_frame->setValue(0);
     ui->box_frame->setMaximum(sprite_prototype->frameja - 1);
-    this->boxframe_changed(0);
+    if(!animating){
+        ui->box_frame->setEnabled(true);
+        ui->box_frame->setValue(0);
+        this->boxframe_changed(0);
+    }
 
     ui->box_animate->setEnabled(true);
 
