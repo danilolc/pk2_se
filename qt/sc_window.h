@@ -20,6 +20,7 @@ class SC_Window : public QMainWindow{
 public:
     explicit SC_Window(QWidget *parent = 0);
     ~SC_Window();
+    void animate();
 
     bool animating = false;
 
@@ -32,7 +33,9 @@ public slots:
     void boxcolor_changed(int value);
     void boxanimate_changed(int value);
 
-    void animate();
+    void restartanimation();
+
+
 
 private:
     Ui::SC_Window *ui;
@@ -42,7 +45,8 @@ private:
 
     int currentframe = 0;
 
-    void update();
+    void LinkSignals();
+    void updateAll();
 };
 
 class AnimThread : public QThread {

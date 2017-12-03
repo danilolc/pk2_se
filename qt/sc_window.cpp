@@ -15,7 +15,7 @@
 #include "../src/platform.h"
 #include "../src/types.h"
 
-AnimThread* anim_thread;
+AnimThread anim_thread;
 
 void AnimThread::run(){
     active = true;
@@ -23,6 +23,16 @@ void AnimThread::run(){
         if(this->window->animating)
             this->window->animate();
         QThread::usleep(16666);
+    }
+}
+
+//Thread function
+void SC_Window::animate(){
+    int lastframe = currentframe;
+    currentframe = sprite->Animoi();
+    if(lastframe != currentframe){
+        sprite_prototype->Piirra(0,0,currentframe);
+        ui->box_frame->setValue(currentframe);
     }
 }
 
@@ -40,6 +50,7 @@ const char colorlist[][16] = {
 
 SC_Window::SC_Window(QWidget *parent) : QMainWindow(parent), ui(new Ui::SC_Window){
     ui->setupUi(this);
+    this->LinkSignals();
 
     sprite_prototype = new PK2Sprite_Prototyyppi;
     sprite_prototype->Uusi();
@@ -48,26 +59,43 @@ SC_Window::SC_Window(QWidget *parent) : QMainWindow(parent), ui(new Ui::SC_Windo
 
     PisteDraw2_Start(ui->frame);
 
-    ui->lab_sound->setText("");
-    ui->lab_name->setText("");
+    //ui->lab_sound->setText("");
+    //ui->lab_name->setText("");
+    //ui->frame->setText("");
 
-    ui->frame->setText("");
+    anim_thread.window = this;
 
-    anim_thread = new AnimThread();
-    anim_thread->window = this;
-
+    //Create color list texts
     for(int i = 0; i < 8; i++)
         ui->box_color->addItem(colorlist[i]);
+
+    this->updateAll();
 }
 
 SC_Window::~SC_Window(){
-    anim_thread->active = false;
-    while(anim_thread->isRunning());
-    delete anim_thread;
+    anim_thread.active = false;
+    while(anim_thread.isRunning());
 
     delete ui;
     delete sprite;
     delete sprite_prototype;
+}
+
+void SC_Window::LinkSignals(){
+    //Menu
+    connect(ui->menuOpen,    SIGNAL(triggered(bool)),         this, SLOT(open()));
+    connect(ui->menuSave,    SIGNAL(triggered(bool)),         this, SLOT(save()));
+
+    //Tab1
+    connect(ui->box_color,   SIGNAL(currentIndexChanged(int)),this, SLOT(boxcolor_changed(int)));
+
+    //Image
+
+    //Animation
+    connect(ui->box_animate, SIGNAL(stateChanged(int)),       this, SLOT(boxanimate_changed(int)));
+    connect(ui->box_restart, SIGNAL(clicked()),               this, SLOT(restartanimation()));
+    connect(ui->box_frame,   SIGNAL(valueChanged(int)),       this, SLOT(boxframe_changed(int)));
+
 }
 
 //Slots
@@ -76,9 +104,9 @@ void SC_Window::open(){
 
     if(!file.isEmpty()){
 
-        if(anim_thread->isRunning()){
-            anim_thread->active = false;
-            while(anim_thread->isRunning());
+        if(anim_thread.isRunning()){
+            anim_thread.active = false;
+            while(anim_thread.isRunning());
         }
 
         this->filename = file;
@@ -91,9 +119,9 @@ void SC_Window::open(){
 
         sprite_prototype->Lataa(bap.data(),baf.data());
 
-        anim_thread->start();
+        anim_thread.start();
 
-        this->update();
+        this->updateAll();
     }
 }
 void SC_Window::save(){
@@ -116,26 +144,18 @@ void SC_Window::boxcolor_changed(int value){
 
     sprite_prototype->Piirra(0,0,currentframe);
 }
-
 void SC_Window::boxanimate_changed(int value){
     bool check = value;
     ui->box_frame->setEnabled(!check);
     ui->txt_frame->setEnabled(!check);
     animating = check;
 }
-
-//Thread function
-void SC_Window::animate(){
-    int lastframe = currentframe;
-    currentframe = sprite->Animoi();
-    if(lastframe != currentframe){
-        sprite_prototype->Piirra(0,0,currentframe);
-        ui->box_frame->setValue(currentframe);
-    }
+void SC_Window::restartanimation(){
+    sprite->sekvenssi_index = 0;
 }
 
 //Internal Functions
-void SC_Window::update(){
+void SC_Window::updateAll(){
     ui->lab_sound->setText(sprite_prototype->aanitiedostot[0]);
     ui->lab_name->setText(sprite_prototype->nimi);
 
