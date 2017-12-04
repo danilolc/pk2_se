@@ -100,6 +100,7 @@ void SC_Window::LinkSignals(){
     connect(ui->box_restart, SIGNAL(clicked()),               this, SLOT(restartanimation()));
     connect(ui->box_frame,   SIGNAL(valueChanged(int)),       this, SLOT(boxcurrentframe_changed(int)));
     connect(ui->box_curranim,SIGNAL(valueChanged(int)),       this, SLOT(boxcurrentanimation_changed(int)));
+    connect(ui->box_interval,SIGNAL(valueChanged(int)),       this, SLOT(boxframeinterval_changed(int)));
 
     connect(framebox_list[0],SIGNAL(valueChanged(int)),       this, SLOT(boxframe0_changed(int)));
     connect(framebox_list[1],SIGNAL(valueChanged(int)),       this, SLOT(boxframe1_changed(int)));
@@ -158,6 +159,9 @@ void SC_Window::boxcurrentframe_changed(int value){
 void SC_Window::boxcurrentanimation_changed(int value){
     sprite->animaatio_index = value;
     this->updateFrameSpinBoxes();
+}
+void SC_Window::boxframeinterval_changed(int value){
+    sprite_prototype->frame_rate = value;
 }
 
 void SC_Window::boxframe0_changed(int value){
@@ -250,6 +254,12 @@ void SC_Window::updateAll(){
     }
 
     ui->box_animate->setEnabled(true);
+
+    ui->txt_interval->setEnabled(true);
+    ui->box_interval->setEnabled(true);
+    ui->box_interval->setValue(sprite_prototype->frame_rate);
+    ui->box_interval->setMinimum(0);
+    ui->box_interval->setMaximum(255);
 
     ui->box_curranim->setEnabled(true);
     ui->box_curranim->setValue(sprite->animaatio_index);
