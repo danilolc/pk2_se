@@ -24,6 +24,7 @@ HEADERS  += sc_window.h\
         ../src/types.h\
         ../src/platform.h \
         ../src/pistedraw.h \
-        ../src/pistesound.h
+        ../src/pistesound.h\
+        ../src/constants.h
 
 FORMS    += sc_window.ui
