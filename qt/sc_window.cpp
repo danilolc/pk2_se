@@ -158,6 +158,7 @@ void SC_Window::boxcurrentframe_changed(int value){
 }
 void SC_Window::boxcurrentanimation_changed(int value){
     sprite->animaatio_index = value;
+    ui->txt_animationName->setText(animationlist[value]);
     this->updateFrameSpinBoxes();
 }
 void SC_Window::boxframeinterval_changed(int value){
@@ -260,6 +261,14 @@ void SC_Window::updateAll(){
     ui->box_interval->setValue(sprite_prototype->frame_rate);
     ui->box_interval->setMinimum(0);
     ui->box_interval->setMaximum(255);
+
+    ui->txt_animationName->setEnabled(true);
+    ui->txt_animationName->setText(animationlist[sprite->animaatio_index]);
+    ui->txt_curranim->setEnabled(true);
+    //ui->txt_nofframes->setEnabled(true);
+    ui->txt_frames->setEnabled(true);
+
+    ui->box_restart->setEnabled(true);
 
     ui->box_curranim->setEnabled(true);
     ui->box_curranim->setValue(sprite->animaatio_index);

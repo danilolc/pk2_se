@@ -13,5 +13,29 @@ const char colorlist[][16] = {
     "Turquoise"
 };
 
+const char animationlist[][16] = {
+    "On the spot",
+    "Walking",
+    "Jumping",
+    "Falling",
+    "Squatting",
+    "Damage",
+    "Death",
+    "Attack 1",
+    "Attack 2",
+
+    "Undefined",
+    "Undefined",
+    "Undefined",
+    "Undefined",
+    "Undefined",
+    "Undefined",
+    "Undefined",
+    "Undefined",
+    "Undefined",
+    "Undefined",
+    "Undefined"
+};
+
 #endif // CONSTANTS_H
 
