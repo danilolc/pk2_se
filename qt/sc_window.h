@@ -35,6 +35,7 @@ public slots:
     void boxcolor_changed(int value);
     void boxanimate_changed(int value);
     void boxframeinterval_changed(int value);
+    void boxloop_changed(bool value);
 
     void boxframe0_changed(int value);
     void boxframe1_changed(int value);
