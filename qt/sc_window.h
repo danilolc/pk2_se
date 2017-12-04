@@ -31,6 +31,7 @@ public slots:
     void reset();
 
     void boxcurrentframe_changed(int value);
+    void boxcurrentanimation_changed(int value);
     void boxcolor_changed(int value);
     void boxanimate_changed(int value);
 

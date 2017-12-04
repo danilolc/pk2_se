@@ -99,6 +99,7 @@ void SC_Window::LinkSignals(){
     connect(ui->box_animate, SIGNAL(stateChanged(int)),       this, SLOT(boxanimate_changed(int)));
     connect(ui->box_restart, SIGNAL(clicked()),               this, SLOT(restartanimation()));
     connect(ui->box_frame,   SIGNAL(valueChanged(int)),       this, SLOT(boxcurrentframe_changed(int)));
+    connect(ui->box_curranim,SIGNAL(valueChanged(int)),       this, SLOT(boxcurrentanimation_changed(int)));
 
     connect(framebox_list[0],SIGNAL(valueChanged(int)),       this, SLOT(boxframe0_changed(int)));
     connect(framebox_list[1],SIGNAL(valueChanged(int)),       this, SLOT(boxframe1_changed(int)));
@@ -154,6 +155,11 @@ void SC_Window::boxcurrentframe_changed(int value){
     currentframe = value;
     sprite_prototype->Piirra(0,0,value);
 }
+void SC_Window::boxcurrentanimation_changed(int value){
+    sprite->animaatio_index = value;
+    this->updateFrameSpinBoxes();
+}
+
 void SC_Window::boxframe0_changed(int value){
     this->boxframe_changed(value,0);
 }
@@ -206,7 +212,6 @@ void SC_Window::restartanimation(){
     sprite->sekvenssi_index = 0;
 }
 
-
 void SC_Window::updateFrameSpinBoxes(){
     int i;
     int currentanimation = sprite->animaatio_index;
@@ -215,8 +220,10 @@ void SC_Window::updateFrameSpinBoxes(){
     for(i = 0; i < nofframes; i++){
         framebox_list[i]->setValue(sprite_prototype->animaatiot[currentanimation].sekvenssi[i] - 1);
         framebox_list[i]->setEnabled(true);
+        framebox_list[i]->setMaximum(sprite_prototype->frameja - 1);
+        framebox_list[i]->setMinimum(0);
     }
-    for(; i<10 ; i++){
+    for(; i < 10 ; i++){
         framebox_list[i]->setValue(0);
         framebox_list[i]->setEnabled(false);
     }
@@ -227,7 +234,14 @@ void SC_Window::updateAll(){
     ui->lab_sound->setText(sprite_prototype->aanitiedostot[0]);
     ui->lab_name->setText(sprite_prototype->nimi);
 
+    int color = sprite_prototype->vari;
+    ui->box_color->setEnabled(true);
+    for(int i = 0; i < 8; i++)
+        if(colorlist_values[i] == color)
+            ui->box_color->setCurrentIndex(i);
+
     ui->box_frame->setMaximum(sprite_prototype->frameja - 1);
+    ui->box_frame->setMinimum(0);
     if(!animating){
         ui->txt_frame->setEnabled(true);
         ui->box_frame->setEnabled(true);
@@ -237,11 +251,9 @@ void SC_Window::updateAll(){
 
     ui->box_animate->setEnabled(true);
 
-    int color = sprite_prototype->vari;
-    ui->box_color->setEnabled(true);
-    for(int i = 0; i < 8; i++)
-        if(colorlist_values[i] == color)
-            ui->box_color->setCurrentIndex(i);
-
+    ui->box_curranim->setEnabled(true);
+    ui->box_curranim->setValue(sprite->animaatio_index);
+    ui->box_curranim->setMaximum(sprite_prototype->animaatioita);
+    ui->box_curranim->setMinimum(0);
     this->updateFrameSpinBoxes();
 }
