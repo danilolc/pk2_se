@@ -9,6 +9,7 @@
 #include <QMainWindow>
 #include <QThread>
 #include <QSpinBox>
+#include "../qt/PBox/pboxnumber.h"
 #include "../src/sprite.h"
 
 namespace Ui {
@@ -34,24 +35,9 @@ public slots:
     void boxcurrentanimation_changed(int value);
     void boxcolor_changed(int value);
     void boxanimate_changed(int value);
-    void boxframeinterval_changed(int value);
     void boxloop_changed(bool value);
 
-    void boxframe0_changed(int value);
-    void boxframe1_changed(int value);
-    void boxframe2_changed(int value);
-    void boxframe3_changed(int value);
-    void boxframe4_changed(int value);
-    void boxframe5_changed(int value);
-    void boxframe6_changed(int value);
-    void boxframe7_changed(int value);
-    void boxframe8_changed(int value);
-    void boxframe9_changed(int value);
-
-
     void restartanimation();
-
-
 
 private:
     Ui::SC_Window *ui;
@@ -61,9 +47,8 @@ private:
 
     int currentframe = 0;
 
-    QSpinBox* framebox_list[10];
+    PBoxNumber* framebox_list[10];
 
-    void boxframe_changed(int value, int box_index);
     void GetFrameSpinBoxes();
     void LinkVars();
 

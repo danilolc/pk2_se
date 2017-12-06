@@ -90,30 +90,13 @@ void SC_Window::LinkVars(){
     //Image
 
     //Animation
-    ui->box_loop->link_var(sprite_prototype->animaatiot[0].looppi);
+    ui->box_curranim->link_var(sprite->animaatio_index);
+    ui->box_interval->link_var(sprite_prototype->frame_rate);
 
     connect(ui->box_animate, SIGNAL(stateChanged(int)),       this, SLOT(boxanimate_changed(int)));
     connect(ui->box_restart, SIGNAL(clicked()),               this, SLOT(restartanimation()));
     connect(ui->box_frame,   SIGNAL(valueChanged(int)),       this, SLOT(boxcurrentframe_changed(int)));
-    connect(ui->box_curranim,SIGNAL(valueChanged(int)),       this, SLOT(boxcurrentanimation_changed(int)));
-    connect(ui->box_interval,SIGNAL(valueChanged(int)),       this, SLOT(boxframeinterval_changed(int)));
 
-    connect(framebox_list[0],SIGNAL(valueChanged(int)),       this, SLOT(boxframe0_changed(int)));
-    connect(framebox_list[1],SIGNAL(valueChanged(int)),       this, SLOT(boxframe1_changed(int)));
-    connect(framebox_list[2],SIGNAL(valueChanged(int)),       this, SLOT(boxframe2_changed(int)));
-    connect(framebox_list[3],SIGNAL(valueChanged(int)),       this, SLOT(boxframe3_changed(int)));
-    connect(framebox_list[4],SIGNAL(valueChanged(int)),       this, SLOT(boxframe4_changed(int)));
-    connect(framebox_list[5],SIGNAL(valueChanged(int)),       this, SLOT(boxframe5_changed(int)));
-    connect(framebox_list[6],SIGNAL(valueChanged(int)),       this, SLOT(boxframe6_changed(int)));
-    connect(framebox_list[7],SIGNAL(valueChanged(int)),       this, SLOT(boxframe7_changed(int)));
-    connect(framebox_list[8],SIGNAL(valueChanged(int)),       this, SLOT(boxframe8_changed(int)));
-    connect(framebox_list[9],SIGNAL(valueChanged(int)),       this, SLOT(boxframe9_changed(int)));
-
-}
-
-void SC_Window::boxframe_changed(int value, int box_index){
-    int currentanimation = sprite->animaatio_index;
-    sprite_prototype->animaatiot[currentanimation].sekvenssi[box_index] = value + 1;
 }
 
 //Slots
@@ -153,49 +136,15 @@ void SC_Window::boxcurrentframe_changed(int value){
     sprite_prototype->Piirra(0,0,value);
 }
 void SC_Window::boxcurrentanimation_changed(int value){
-    sprite->animaatio_index = value;
+    //sprite->animaatio_index = value;
     ui->txt_animationName->setText(animationlist[value]);
     ui->box_loop->link_var(sprite_prototype->animaatiot[value].looppi);
     this->updateFrameSpinBoxes();
-}
-void SC_Window::boxframeinterval_changed(int value){
-    sprite_prototype->frame_rate = value;
 }
 void SC_Window::boxloop_changed(bool value){
     int currentanimation = sprite->animaatio_index;
     sprite_prototype->animaatiot[currentanimation].looppi = value;
 }
-void SC_Window::boxframe0_changed(int value){
-    this->boxframe_changed(value,0);
-}
-void SC_Window::boxframe1_changed(int value){
-    this->boxframe_changed(value,1);
-}
-void SC_Window::boxframe2_changed(int value){
-    this->boxframe_changed(value,2);
-}
-void SC_Window::boxframe3_changed(int value){
-    this->boxframe_changed(value,3);
-}
-void SC_Window::boxframe4_changed(int value){
-    this->boxframe_changed(value,4);
-}
-void SC_Window::boxframe5_changed(int value){
-    this->boxframe_changed(value,5);
-}
-void SC_Window::boxframe6_changed(int value){
-    this->boxframe_changed(value,6);
-}
-void SC_Window::boxframe7_changed(int value){
-    this->boxframe_changed(value,7);
-}
-void SC_Window::boxframe8_changed(int value){
-    this->boxframe_changed(value,8);
-}
-void SC_Window::boxframe9_changed(int value){
-    this->boxframe_changed(value,9);
-}
-
 
 void SC_Window::boxcolor_changed(int value){
     if(value != 0){
@@ -223,19 +172,23 @@ void SC_Window::updateFrameSpinBoxes(){
     int nofframes = sprite_prototype->animaatiot[currentanimation].frameja;
 
     for(i = 0; i < nofframes; i++){
-        framebox_list[i]->setValue(sprite_prototype->animaatiot[currentanimation].sekvenssi[i] - 1);
         framebox_list[i]->setEnabled(true);
+        framebox_list[i]->setOffset(1);
+        framebox_list[i]->link_var(sprite_prototype->animaatiot[currentanimation].sekvenssi[i]);
         framebox_list[i]->setMaximum(sprite_prototype->frameja - 1);
-        framebox_list[i]->setMinimum(0);
     }
     for(; i < 10 ; i++){
-        framebox_list[i]->setValue(0);
         framebox_list[i]->setEnabled(false);
+        framebox_list[i]->setOffset(1);
+        framebox_list[i]->link_var(sprite_prototype->animaatiot[currentanimation].sekvenssi[i]);
+        framebox_list[i]->setValue(0);
     }
 }
 
 //Internal Functions
 void SC_Window::updateAll(){
+    this->LinkVars();
+
     ui->lab_sound->setText(sprite_prototype->aanitiedostot[0]);
     ui->lab_name->setText(sprite_prototype->nimi);
 
@@ -258,9 +211,6 @@ void SC_Window::updateAll(){
 
     ui->txt_interval->setEnabled(true);
     ui->box_interval->setEnabled(true);
-    ui->box_interval->setValue(sprite_prototype->frame_rate);
-    ui->box_interval->setMinimum(0);
-    ui->box_interval->setMaximum(255);
 
     ui->txt_animationName->setEnabled(true);
     ui->txt_animationName->setText(animationlist[sprite->animaatio_index]);

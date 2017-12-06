@@ -192,7 +192,7 @@
        <string>-bmp name-</string>
       </property>
      </widget>
-     <widget class="QSpinBox" name="box_framex">
+     <widget class="PBoxNumber" name="box_framex">
       <property name="enabled">
        <bool>false</bool>
       </property>
@@ -205,7 +205,7 @@
        </rect>
       </property>
      </widget>
-     <widget class="QSpinBox" name="box_framey">
+     <widget class="PBoxNumber" name="box_framey">
       <property name="enabled">
        <bool>false</bool>
       </property>
@@ -218,7 +218,7 @@
        </rect>
       </property>
      </widget>
-     <widget class="QSpinBox" name="box_framew">
+     <widget class="PBoxNumber" name="box_framew">
       <property name="enabled">
        <bool>false</bool>
       </property>
@@ -231,7 +231,7 @@
        </rect>
       </property>
      </widget>
-     <widget class="QSpinBox" name="box_frameh">
+     <widget class="PBoxNumber" name="box_frameh">
       <property name="enabled">
        <bool>false</bool>
       </property>
@@ -244,7 +244,7 @@
        </rect>
       </property>
      </widget>
-     <widget class="QSpinBox" name="box_frames">
+     <widget class="PBoxNumber" name="box_frames">
       <property name="enabled">
        <bool>false</bool>
       </property>
@@ -262,7 +262,7 @@
      <attribute name="title">
       <string>Animation</string>
      </attribute>
-     <widget class="QSpinBox" name="box_frame">
+     <widget class="PBoxNumber" name="box_frame">
       <property name="enabled">
        <bool>false</bool>
       </property>
@@ -310,7 +310,7 @@
        <string>Frame:</string>
       </property>
      </widget>
-     <widget class="QSpinBox" name="box_nofanim">
+     <widget class="PBoxNumber" name="box_nofanim">
       <property name="enabled">
        <bool>false</bool>
       </property>
@@ -355,7 +355,7 @@
        <string>Number of frames:</string>
       </property>
      </widget>
-     <widget class="QSpinBox" name="box_nofframes">
+     <widget class="PBoxNumber" name="box_nofframes">
       <property name="enabled">
        <bool>false</bool>
       </property>
@@ -387,7 +387,7 @@
        <string>Frame Interval:</string>
       </property>
      </widget>
-     <widget class="QSpinBox" name="box_interval">
+     <widget class="PBoxNumber" name="box_interval">
       <property name="enabled">
        <bool>false</bool>
       </property>
@@ -437,7 +437,7 @@
         <string>Current animation:</string>
        </property>
       </widget>
-      <widget class="QSpinBox" name="box_frame5">
+      <widget class="PBoxNumber" name="box_frame5">
        <property name="enabled">
         <bool>false</bool>
        </property>
@@ -466,7 +466,7 @@
         <string>Number of frames:</string>
        </property>
       </widget>
-      <widget class="QSpinBox" name="box_frame1">
+      <widget class="PBoxNumber" name="box_frame1">
        <property name="enabled">
         <bool>false</bool>
        </property>
@@ -479,7 +479,7 @@
         </rect>
        </property>
       </widget>
-      <widget class="QSpinBox" name="box_frame4">
+      <widget class="PBoxNumber" name="box_frame4">
        <property name="enabled">
         <bool>false</bool>
        </property>
@@ -492,7 +492,7 @@
         </rect>
        </property>
       </widget>
-      <widget class="QSpinBox" name="box_frame8">
+      <widget class="PBoxNumber" name="box_frame8">
        <property name="enabled">
         <bool>false</bool>
        </property>
@@ -505,7 +505,7 @@
         </rect>
        </property>
       </widget>
-      <widget class="QSpinBox" name="box_frame9">
+      <widget class="PBoxNumber" name="box_frame9">
        <property name="enabled">
         <bool>false</bool>
        </property>
@@ -518,7 +518,7 @@
         </rect>
        </property>
       </widget>
-      <widget class="QSpinBox" name="box_curnofframes">
+      <widget class="PBoxNumber" name="box_curnofframes">
        <property name="enabled">
         <bool>false</bool>
        </property>
@@ -531,7 +531,7 @@
         </rect>
        </property>
       </widget>
-      <widget class="QSpinBox" name="box_frame6">
+      <widget class="PBoxNumber" name="box_frame6">
        <property name="enabled">
         <bool>false</bool>
        </property>
@@ -544,7 +544,7 @@
         </rect>
        </property>
       </widget>
-      <widget class="QSpinBox" name="box_frame3">
+      <widget class="PBoxNumber" name="box_frame3">
        <property name="enabled">
         <bool>false</bool>
        </property>
@@ -557,7 +557,7 @@
         </rect>
        </property>
       </widget>
-      <widget class="QSpinBox" name="box_frameA">
+      <widget class="PBoxNumber" name="box_frameA">
        <property name="enabled">
         <bool>false</bool>
        </property>
@@ -586,7 +586,7 @@
         <string>Frames:</string>
        </property>
       </widget>
-      <widget class="QSpinBox" name="box_frame7">
+      <widget class="PBoxNumber" name="box_frame7">
        <property name="enabled">
         <bool>false</bool>
        </property>
@@ -599,7 +599,7 @@
         </rect>
        </property>
       </widget>
-      <widget class="QSpinBox" name="box_frame2">
+      <widget class="PBoxNumber" name="box_frame2">
        <property name="enabled">
         <bool>false</bool>
        </property>
@@ -612,7 +612,7 @@
         </rect>
        </property>
       </widget>
-      <widget class="QSpinBox" name="box_curranim">
+      <widget class="PBoxNumber" name="box_curranim">
        <property name="enabled">
         <bool>false</bool>
        </property>
@@ -772,6 +772,11 @@
    <class>PBoxBool</class>
    <extends>QCheckBox</extends>
    <header>PBox/pboxbool.h</header>
+  </customwidget>
+  <customwidget>
+   <class>PBoxNumber</class>
+   <extends>QSpinBox</extends>
+   <header>PBox/pboxnumber.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
