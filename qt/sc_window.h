@@ -65,7 +65,7 @@ private:
 
     void boxframe_changed(int value, int box_index);
     void GetFrameSpinBoxes();
-    void LinkSignals();
+    void LinkVars();
 
     void updateFrameSpinBoxes();
     void updateAll();

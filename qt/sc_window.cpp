@@ -52,26 +52,17 @@ void SC_Window::GetFrameSpinBoxes(){
 }
 
 SC_Window::SC_Window(QWidget *parent) : QMainWindow(parent), ui(new Ui::SC_Window){
+    sprite_prototype = new PK2Sprite_Prototyyppi();
+    sprite = new PK2Sprite(sprite_prototype,0,true,0,0);
+
     ui->setupUi(this);
     this->GetFrameSpinBoxes();
-    this->LinkSignals();
 
-    sprite_prototype = new PK2Sprite_Prototyyppi;
-    sprite_prototype->Uusi();
-
-    sprite = new PK2Sprite(sprite_prototype,0,true,0,0);
+    this->LinkVars();
 
     PisteDraw2_Start(ui->frame);
 
-    //ui->lab_sound->setText("");
-    //ui->lab_name->setText("");
-    //ui->frame->setText("");
-
     anim_thread.window = this;
-
-    //Create color list texts
-    for(int i = 0; i < 8; i++)
-        ui->box_color->addItem(colorlist[i]);
 
     this->updateAll();
 }
@@ -85,23 +76,27 @@ SC_Window::~SC_Window(){
     delete sprite_prototype;
 }
 
-void SC_Window::LinkSignals(){
+void SC_Window::LinkVars(){
     //Menu
     connect(ui->menuOpen,    SIGNAL(triggered(bool)),         this, SLOT(open()));
     connect(ui->menuSave,    SIGNAL(triggered(bool)),         this, SLOT(save()));
 
-    //Tab1
+    //Color
+    for(int i = 0; i < 8; i++)
+        ui->box_color->addItem(colorlist[i]);
+
     connect(ui->box_color,   SIGNAL(currentIndexChanged(int)),this, SLOT(boxcolor_changed(int)));
 
     //Image
 
     //Animation
+    ui->box_loop->link_var(sprite_prototype->animaatiot[0].looppi);
+
     connect(ui->box_animate, SIGNAL(stateChanged(int)),       this, SLOT(boxanimate_changed(int)));
     connect(ui->box_restart, SIGNAL(clicked()),               this, SLOT(restartanimation()));
     connect(ui->box_frame,   SIGNAL(valueChanged(int)),       this, SLOT(boxcurrentframe_changed(int)));
     connect(ui->box_curranim,SIGNAL(valueChanged(int)),       this, SLOT(boxcurrentanimation_changed(int)));
     connect(ui->box_interval,SIGNAL(valueChanged(int)),       this, SLOT(boxframeinterval_changed(int)));
-    connect(ui->box_loop,    SIGNAL(toggled(bool)),           this, SLOT(boxloop_changed(bool)));
 
     connect(framebox_list[0],SIGNAL(valueChanged(int)),       this, SLOT(boxframe0_changed(int)));
     connect(framebox_list[1],SIGNAL(valueChanged(int)),       this, SLOT(boxframe1_changed(int)));
@@ -160,7 +155,7 @@ void SC_Window::boxcurrentframe_changed(int value){
 void SC_Window::boxcurrentanimation_changed(int value){
     sprite->animaatio_index = value;
     ui->txt_animationName->setText(animationlist[value]);
-    ui->box_loop->setChecked(sprite_prototype->animaatiot[value].looppi);
+    ui->box_loop->link_var(sprite_prototype->animaatiot[value].looppi);
     this->updateFrameSpinBoxes();
 }
 void SC_Window::boxframeinterval_changed(int value){

@@ -16,7 +16,8 @@ SOURCES += sc_window.cpp\
         ../src/main.cpp\
         ../src/sprite.cpp\
         ../src/qt_pistesound.cpp\
-        ../src/qt_pistedraw.cpp
+        ../src/qt_pistedraw.cpp \
+        PBox/pboxbool.cpp
 
 
 HEADERS  += sc_window.h\
@@ -25,6 +26,7 @@ HEADERS  += sc_window.h\
         ../src/platform.h \
         ../src/pistedraw.h \
         ../src/pistesound.h\
-        ../src/constants.h
+        ../src/constants.h \
+        PBox/pboxbool.h
 
 FORMS    += sc_window.ui

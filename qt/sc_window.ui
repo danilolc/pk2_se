@@ -34,7 +34,7 @@
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
-      <string>Tab 1</string>
+      <string>Color</string>
      </attribute>
      <widget class="QLabel" name="lab_sound">
       <property name="geometry">
@@ -625,7 +625,7 @@
         </rect>
        </property>
       </widget>
-      <widget class="QCheckBox" name="box_loop">
+      <widget class="PBoxBool" name="box_loop">
        <property name="enabled">
         <bool>false</bool>
        </property>
@@ -767,6 +767,13 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>PBoxBool</class>
+   <extends>QCheckBox</extends>
+   <header>PBox/pboxbool.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
  <slots>

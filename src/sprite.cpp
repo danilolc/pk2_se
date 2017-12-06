@@ -20,7 +20,7 @@ using namespace std;
 /* -------- PK2Sprite Prototyyppi ------------------------------------------------------------------ */
 
 PK2Sprite_Prototyyppi::PK2Sprite_Prototyyppi(){
-
+//if equals to this->Uusi(), then call this->Uusi().
 	strcpy(versio,PK2SPRITE_VIIMEISIN_VERSIO);
 	strcpy(tiedosto,"");
 	strcpy(kuvatiedosto,"");
