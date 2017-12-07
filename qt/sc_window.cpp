@@ -118,7 +118,6 @@ void SC_Window::LinkVars(){
 
 }
 
-//Slots
 void SC_Window::open(){
     QString file = QFileDialog::getOpenFileName(this,"Selecione um sprite.", "", "Sprites (*.spr)");
 
@@ -138,9 +137,11 @@ void SC_Window::open(){
         chdir(bap.data());
 
         sprite_prototype->Lataa(bap.data(),baf.data());
+        *sprite = PK2Sprite(sprite_prototype,0,true,0,0);
 
         anim_thread.start();
 
+        this->setWindowTitle(sprite_prototype->tiedosto);
         this->updateAll();
     }
 }
@@ -196,10 +197,7 @@ void SC_Window::updateFrameSpinBoxes(){
     }
 }
 
-//Internal Functions
 void SC_Window::updateAll(){
-    this->LinkVars();
-
     ui->lab_sound->setText(sprite_prototype->aanitiedostot[0]);
     ui->lab_name->setText(sprite_prototype->nimi);
 
@@ -242,5 +240,7 @@ void SC_Window::updateAll(){
     ui->box_curranim->setValue(sprite->animaatio_index);
     ui->box_curranim->setMaximum(sprite_prototype->animaatioita);
     ui->box_curranim->setMinimum(0);
+
+    sprite_prototype->Piirra(0,0,sc_window->currentframe);
     this->updateFrameSpinBoxes();
 }
