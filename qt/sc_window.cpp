@@ -17,6 +17,7 @@
 #include "../src/constants.h"
 
 AnimThread anim_thread;
+SC_Window* sc_window;
 
 void AnimThread::run(){
     active = true;
@@ -34,7 +35,7 @@ void SC_Window::animate(){
     if(lastframe != currentframe){
         sprite_prototype->Piirra(0,0,currentframe);
         ui->box_frame->setValue(currentframe);
-        framebox_list[sprite->sekvenssi_index]; //Change color or something
+        //framebox_list[sprite->sekvenssi_index]; //Change color or something
     }
 }
 
@@ -52,6 +53,8 @@ void SC_Window::GetFrameSpinBoxes(){
 }
 
 SC_Window::SC_Window(QWidget *parent) : QMainWindow(parent), ui(new Ui::SC_Window){
+    sc_window = this;
+
     sprite_prototype = new PK2Sprite_Prototyyppi();
     sprite = new PK2Sprite(sprite_prototype,0,true,0,0);
 
@@ -90,12 +93,28 @@ void SC_Window::LinkVars(){
     //Image
 
     //Animation
-    ui->box_curranim->link_var(sprite->animaatio_index);
     ui->box_interval->link_var(sprite_prototype->frame_rate);
+
+    ui->box_curranim->link_function( [](){
+        int value = sc_window->sprite->animaatio_index;
+        sc_window->ui->txt_animationName->setText(animationlist[value]);
+        sc_window->ui->box_loop->link_var(sc_window->sprite_prototype->animaatiot[value].looppi);
+        sc_window->ui->box_curnofframes->link_var(sc_window->sprite_prototype->animaatiot[value].frameja);
+        sc_window->updateFrameSpinBoxes();
+    });
+    ui->box_curranim->link_var(sprite->animaatio_index);
+
+    ui->box_frame->link_function( [](){
+        sc_window->sprite_prototype->Piirra(0,0,sc_window->currentframe);
+    });
+    ui->box_frame->link_var(currentframe);
+
+    ui->box_curnofframes->link_function( [](){
+        sc_window->updateFrameSpinBoxes();
+    });
 
     connect(ui->box_animate, SIGNAL(stateChanged(int)),       this, SLOT(boxanimate_changed(int)));
     connect(ui->box_restart, SIGNAL(clicked()),               this, SLOT(restartanimation()));
-    connect(ui->box_frame,   SIGNAL(valueChanged(int)),       this, SLOT(boxcurrentframe_changed(int)));
 
 }
 
@@ -131,20 +150,6 @@ void SC_Window::save(){
 void SC_Window::reset(){
 
 }
-void SC_Window::boxcurrentframe_changed(int value){
-    currentframe = value;
-    sprite_prototype->Piirra(0,0,value);
-}
-void SC_Window::boxcurrentanimation_changed(int value){
-    //sprite->animaatio_index = value;
-    ui->txt_animationName->setText(animationlist[value]);
-    ui->box_loop->link_var(sprite_prototype->animaatiot[value].looppi);
-    this->updateFrameSpinBoxes();
-}
-void SC_Window::boxloop_changed(bool value){
-    int currentanimation = sprite->animaatio_index;
-    sprite_prototype->animaatiot[currentanimation].looppi = value;
-}
 
 void SC_Window::boxcolor_changed(int value){
     if(value != 0){
@@ -170,17 +175,23 @@ void SC_Window::updateFrameSpinBoxes(){
     int i;
     int currentanimation = sprite->animaatio_index;
     int nofframes = sprite_prototype->animaatiot[currentanimation].frameja;
+    int max_frames = sprite_prototype->frameja;
+    BYTE* working_frame;
 
     for(i = 0; i < nofframes; i++){
+        working_frame = &sprite_prototype->animaatiot[currentanimation].sekvenssi[i];
         framebox_list[i]->setEnabled(true);
         framebox_list[i]->setOffset(1);
-        framebox_list[i]->link_var(sprite_prototype->animaatiot[currentanimation].sekvenssi[i]);
+        if(*working_frame <= 0 || *working_frame > max_frames) *working_frame = 1;
+        framebox_list[i]->link_var(*working_frame);
         framebox_list[i]->setMaximum(sprite_prototype->frameja - 1);
     }
     for(; i < 10 ; i++){
+        working_frame = &sprite_prototype->animaatiot[currentanimation].sekvenssi[i];
         framebox_list[i]->setEnabled(false);
         framebox_list[i]->setOffset(1);
-        framebox_list[i]->link_var(sprite_prototype->animaatiot[currentanimation].sekvenssi[i]);
+        if(*working_frame <= 0 || *working_frame > max_frames) *working_frame = 1;
+        framebox_list[i]->link_var(*working_frame);
         framebox_list[i]->setValue(0);
     }
 }
@@ -204,10 +215,13 @@ void SC_Window::updateAll(){
         ui->txt_frame->setEnabled(true);
         ui->box_frame->setEnabled(true);
         ui->box_frame->setValue(0);
-        this->boxcurrentframe_changed(0);
     }
 
     ui->box_animate->setEnabled(true);
+
+    ui->txt_nofframes->setEnabled(true);
+    ui->box_curnofframes->setEnabled(true);
+    ui->box_curnofframes->setMaximum(10);
 
     ui->txt_interval->setEnabled(true);
     ui->box_interval->setEnabled(true);

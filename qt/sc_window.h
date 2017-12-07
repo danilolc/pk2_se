@@ -26,17 +26,15 @@ public:
 
     bool animating = false;
 
+    void boxcurrentframe_changed();
+
 public slots:
     void open();
     void save();
     void reset();
 
-    void boxcurrentframe_changed(int value);
-    void boxcurrentanimation_changed(int value);
     void boxcolor_changed(int value);
     void boxanimate_changed(int value);
-    void boxloop_changed(bool value);
-
     void restartanimation();
 
 private:
