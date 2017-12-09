@@ -49,6 +49,7 @@ private:
 
     void GetFrameSpinBoxes();
     void LinkVars();
+    void EnableBoxes();
 
     void updateFrameSpinBoxes();
     void updateAll();

@@ -22,21 +22,21 @@ void PBoxNumber::link_var(DWORD& variable){
     this->variable_dword = &variable;
     this->type = PBOX_DWORD;
     if(this->minimum() < 0) this->setMinimum(0);
-    this->PsetValue(variable - this->offset);
+    this->PsetValue((int)variable - this->offset);
 }
 void PBoxNumber::link_var(WORD& variable){
     this->variable_word = &variable;
     this->type = PBOX_WORD;
     if(this->minimum() < 0) this->setMinimum(0);
     this->setMaximum(65535);
-    this->PsetValue(variable - this->offset);
+    this->PsetValue((int)variable - this->offset);
 }
 void PBoxNumber::link_var(BYTE& variable){
     this->variable_byte = &variable;
     this->type = PBOX_BYTE;
     if(this->minimum() < 0) this->setMinimum(0);
     this->setMaximum(255);
-    this->PsetValue(variable - this->offset);
+    this->PsetValue((int)variable - this->offset);
 }
 void PBoxNumber::link_var(int& variable){
     this->variable_int = &variable;
@@ -52,6 +52,17 @@ void PBoxNumber::PsetValue(int value){
 
 void PBoxNumber::setOffset(int offset){
     this->offset = offset;
+}
+
+void PBoxNumber::UpdateValue(){
+    if(type = PBOX_DWORD && variable_dword != NULL)
+        this->PsetValue((int)*variable_dword - this->offset);
+    if(type = PBOX_WORD && variable_word != NULL)
+        this->PsetValue((int)*variable_word - this->offset);
+    if(type = PBOX_BYTE && variable_byte != NULL)
+        this->PsetValue((int)*variable_byte - this->offset);
+    if(type = PBOX_int && variable_int != NULL)
+        this->PsetValue(*variable_int - this->offset);
 }
 
 PBoxNumber::PBoxNumber(QWidget* widget) : QSpinBox(widget){

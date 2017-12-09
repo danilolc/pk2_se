@@ -60,6 +60,7 @@ SC_Window::SC_Window(QWidget *parent) : QMainWindow(parent), ui(new Ui::SC_Windo
 
     ui->setupUi(this);
     this->GetFrameSpinBoxes();
+    this->EnableBoxes();
 
     this->LinkVars();
 
@@ -77,6 +78,20 @@ SC_Window::~SC_Window(){
     delete ui;
     delete sprite;
     delete sprite_prototype;
+}
+
+void SC_Window::EnableBoxes(){
+    ui->txt_curranim->setEnabled(true);
+    ui->box_curranim->setEnabled(true);
+    ui->box_curranim->setValue(sprite->animaatio_index);
+    ui->box_curranim->setMaximum(sprite_prototype->animaatioita);
+    ui->box_curranim->setMinimum(0);
+
+    ui->txt_nofanim->setEnabled(true);
+    ui->box_nofanim->setEnabled(true);
+    ui->box_nofanim->setMaximum(20);
+    ui->box_nofanim->setMinimum(1);
+    ui->box_nofanim->setOffset(-1);
 }
 
 void SC_Window::LinkVars(){
@@ -112,6 +127,11 @@ void SC_Window::LinkVars(){
     ui->box_curnofframes->link_function( [](){
         sc_window->updateFrameSpinBoxes();
     });
+
+    ui->box_nofanim->link_function( [](){
+        sc_window->ui->box_curranim->setMaximum(sc_window->sprite_prototype->animaatioita);
+    });
+    ui->box_nofanim->link_var(sprite_prototype->animaatioita);
 
     connect(ui->box_animate, SIGNAL(stateChanged(int)),       this, SLOT(boxanimate_changed(int)));
     connect(ui->box_restart, SIGNAL(clicked()),               this, SLOT(restartanimation()));
@@ -226,8 +246,6 @@ void SC_Window::updateAll(){
 
     ui->txt_animationName->setEnabled(true);
     ui->txt_animationName->setText(animationlist[sprite->animaatio_index]);
-    ui->txt_curranim->setEnabled(true);
-    //ui->txt_nofframes->setEnabled(true);
     ui->txt_frames->setEnabled(true);
 
     ui->box_restart->setEnabled(true);
@@ -236,10 +254,7 @@ void SC_Window::updateAll(){
     ui->box_loop->setEnabled(true);
     ui->box_loop->setChecked(sprite_prototype->animaatiot[currentanimation].looppi);
 
-    ui->box_curranim->setEnabled(true);
-    ui->box_curranim->setValue(sprite->animaatio_index);
-    ui->box_curranim->setMaximum(sprite_prototype->animaatioita);
-    ui->box_curranim->setMinimum(0);
+    ui->box_nofanim->UpdateValue();
 
     sprite_prototype->Piirra(0,0,sc_window->currentframe);
     this->updateFrameSpinBoxes();

@@ -29,6 +29,7 @@ public:
     void link_var(int& variable);
 
     void setOffset(int offset);
+    void UpdateValue();
     void PsetValue(int value);
 
 private:
