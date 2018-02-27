@@ -92,6 +92,19 @@ void SC_Window::EnableBoxes(){
     ui->box_nofanim->setMaximum(20);
     ui->box_nofanim->setMinimum(1);
     ui->box_nofanim->setOffset(-1);
+
+    ui->txt_interval->setEnabled(true);
+    ui->box_interval->setEnabled(true);
+
+    ui->txt_nofframes->setEnabled(true);
+    ui->box_curnofframes->setEnabled(true);
+    ui->box_curnofframes->setMaximum(10);
+
+    ui->box_animate->setEnabled(true);
+    ui->txt_animationName->setEnabled(true);
+    ui->txt_frames->setEnabled(true);
+    ui->box_restart->setEnabled(true);
+    ui->box_loop->setEnabled(true);
 }
 
 void SC_Window::LinkVars(){
@@ -235,23 +248,9 @@ void SC_Window::updateAll(){
         ui->box_frame->setValue(0);
     }
 
-    ui->box_animate->setEnabled(true);
-
-    ui->txt_nofframes->setEnabled(true);
-    ui->box_curnofframes->setEnabled(true);
-    ui->box_curnofframes->setMaximum(10);
-
-    ui->txt_interval->setEnabled(true);
-    ui->box_interval->setEnabled(true);
-
-    ui->txt_animationName->setEnabled(true);
-    ui->txt_animationName->setText(animationlist[sprite->animaatio_index]);
-    ui->txt_frames->setEnabled(true);
-
-    ui->box_restart->setEnabled(true);
-
     int currentanimation = sprite->animaatio_index;
-    ui->box_loop->setEnabled(true);
+    ui->txt_animationName->setText(animationlist[currentanimation]);
+
     ui->box_loop->setChecked(sprite_prototype->animaatiot[currentanimation].looppi);
 
     ui->box_nofanim->UpdateValue();
