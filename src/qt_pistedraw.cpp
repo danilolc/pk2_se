@@ -4,7 +4,7 @@
 //#########################
 
 //A simplified version of PisteDraw.cpp from PekkaKana 2
-//Will hold the sprite frame
+//It will hold the sprite frame
 
 #include <QRect>
 #include <QImage>

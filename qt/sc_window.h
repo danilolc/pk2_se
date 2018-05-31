@@ -7,8 +7,8 @@
 #define SC_WINDOW_H
 
 #include <QMainWindow>
-#include <QThread>
 #include <QSpinBox>
+#include "data_window.h"
 #include "../qt/PBox/pboxnumber.h"
 #include "../src/sprite.h"
 
@@ -24,6 +24,8 @@ public:
     ~SC_Window();
     void animate();
 
+    Data_Window* data_window;
+
     bool animating = false;
 
     void boxcurrentframe_changed();
@@ -32,6 +34,7 @@ public slots:
     void open();
     void save();
     void reset();
+    void show_data();
 
     void boxcolor_changed(int value);
     void boxanimate_changed(int value);
@@ -53,14 +56,6 @@ private:
 
     void updateFrameSpinBoxes();
     void updateAll();
-};
-
-class AnimThread : public QThread {
-    Q_OBJECT
-    void run();
-public:
-    SC_Window* window;
-    bool active;
 };
 
 #endif // SC_WINDOW_H

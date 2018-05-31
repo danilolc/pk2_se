@@ -2,14 +2,18 @@
 //Pekka Kana QT Sprite Creator - sc_window.cpp
 //by Danilo Lemos 2017
 //#########################
+// This is the main file.
 
 #include <QFileDialog>
 #include <QPixmap>
 #include <QTimer>
 #include <unistd.h>
 #include <cstdio>
+
 #include "sc_window.h"
 #include "ui_sc_window.h"
+
+#include "animthread.h"
 
 #include "../src/pistedraw.h"
 #include "../src/platform.h"
@@ -39,24 +43,12 @@ void SC_Window::animate(){
     }
 }
 
-void SC_Window::GetFrameSpinBoxes(){
-    framebox_list[0] = ui->box_frame1;
-    framebox_list[1] = ui->box_frame2;
-    framebox_list[2] = ui->box_frame3;
-    framebox_list[3] = ui->box_frame4;
-    framebox_list[4] = ui->box_frame5;
-    framebox_list[5] = ui->box_frame6;
-    framebox_list[6] = ui->box_frame7;
-    framebox_list[7] = ui->box_frame8;
-    framebox_list[8] = ui->box_frame9;
-    framebox_list[9] = ui->box_frameA;
-}
-
 SC_Window::SC_Window(QWidget *parent) : QMainWindow(parent), ui(new Ui::SC_Window){
     sc_window = this;
 
     sprite_prototype = new PK2Sprite_Prototyyppi();
     sprite = new PK2Sprite(sprite_prototype,0,true,0,0);
+    data_window->sprite_prototype = sprite_prototype;
 
     ui->setupUi(this);
     this->GetFrameSpinBoxes();
@@ -75,9 +67,23 @@ SC_Window::~SC_Window(){
     anim_thread.active = false;
     while(anim_thread.isRunning());
 
-    delete ui;
-    delete sprite;
-    delete sprite_prototype;
+    if(ui) delete ui;
+    if(sprite) delete sprite;
+    if(sprite_prototype) delete sprite_prototype;
+}
+
+// List all animation spinboxes in a array
+void SC_Window::GetFrameSpinBoxes(){
+    framebox_list[0] = ui->box_frame1;
+    framebox_list[1] = ui->box_frame2;
+    framebox_list[2] = ui->box_frame3;
+    framebox_list[3] = ui->box_frame4;
+    framebox_list[4] = ui->box_frame5;
+    framebox_list[5] = ui->box_frame6;
+    framebox_list[6] = ui->box_frame7;
+    framebox_list[7] = ui->box_frame8;
+    framebox_list[8] = ui->box_frame9;
+    framebox_list[9] = ui->box_frameA;
 }
 
 void SC_Window::EnableBoxes(){
@@ -108,6 +114,9 @@ void SC_Window::EnableBoxes(){
 }
 
 void SC_Window::LinkVars(){
+    //Data
+    connect(ui->box_showdata, SIGNAL(clicked(bool)), this, SLOT(show_data()));
+
     //Menu
     connect(ui->menuOpen,    SIGNAL(triggered(bool)),         this, SLOT(open()));
     connect(ui->menuSave,    SIGNAL(triggered(bool)),         this, SLOT(save()));
@@ -185,6 +194,18 @@ void SC_Window::reset(){
 
 }
 
+//Slots
+void SC_Window::show_data(){
+    if(data_window->isHidden()){
+        data_window->show();
+        return;
+    }
+    if(!data_window->isActiveWindow()){
+        data_window->setFocus();
+        return;
+    }
+
+}
 void SC_Window::boxcolor_changed(int value){
     if(value != 0){
         sprite_prototype->vari = colorlist_values[value];

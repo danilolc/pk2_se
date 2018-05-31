@@ -20,7 +20,8 @@ SOURCES += sc_window.cpp\
         ../src/qt_pistesound.cpp\
         ../src/qt_pistedraw.cpp \
         PBox/pboxbool.cpp \
-    PBox/pboxnumber.cpp
+    PBox/pboxnumber.cpp \
+    data_window.cpp
 
 
 HEADERS  += sc_window.h\
@@ -31,6 +32,9 @@ HEADERS  += sc_window.h\
         ../src/pistesound.h\
         ../src/constants.h \
         PBox/pboxbool.h \
-    PBox/pboxnumber.h
+    PBox/pboxnumber.h \
+    animthread.h \
+    data_window.h
 
-FORMS    += sc_window.ui
+FORMS    += sc_window.ui \
+    data_window.ui

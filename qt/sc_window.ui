@@ -30,9 +30,9 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>3</number>
     </property>
-    <widget class="QWidget" name="tab">
+    <widget class="QWidget" name="tab_color">
      <attribute name="title">
       <string>Color</string>
      </attribute>
@@ -678,6 +678,11 @@
       </property>
      </widget>
     </widget>
+    <widget class="QWidget" name="tab_boolean">
+     <attribute name="title">
+      <string>Page</string>
+     </attribute>
+    </widget>
    </widget>
    <widget class="QLabel" name="frame">
     <property name="enabled">
@@ -736,6 +741,19 @@
     </property>
     <property name="text">
      <string>Name</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="box_showdata">
+    <property name="geometry">
+     <rect>
+      <x>510</x>
+      <y>10</y>
+      <width>80</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Show Data</string>
     </property>
    </widget>
   </widget>
